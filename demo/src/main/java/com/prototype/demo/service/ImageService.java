@@ -16,9 +16,9 @@ public class ImageService {
     @Autowired
     public ImageService(IImageData repo) {this.repo = repo;}
 
-    public void insert(Image image) {
+    public Image insert(Image image) {
         image.setId(UUID.randomUUID());
-        repo.save(image);
+        return repo.save(image);
     }
 
     public Image get(UUID id) {
@@ -29,13 +29,22 @@ public class ImageService {
         return repo.findAll();
     }
 
-    public Image save(Image image) {
+    public Image update(Image image) {
         return repo.save(image);
+    }
+
+    public List<String> addTag(UUID id, String tag) {
+
+        Image i = repo.getById(id);
+        i.getTags().add(tag);
+        repo.save(i);
+        return i.getTags();
     }
 
     public void delete(UUID id) {
         repo.deleteById(id);
     }
+
 
 
 }
